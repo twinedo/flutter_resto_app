@@ -1,6 +1,6 @@
 # restaurant_app_sub1
 
-A new Flutter project.
+Submission 1 Dicoding "Belajar Fundamental Aplikasi Flutter"
 
 ## Getting Started
 
