@@ -142,6 +142,15 @@ class DetailScreen extends StatelessWidget {
                                 color: blackColor,
                                 fontSize: 20),
                           ),
+                          ListView.builder(
+                              // shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: resto.menus?.foods?.length,
+                              // physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Text(
+                                    resto.menus!.foods![index].name.toString());
+                              }),
                         ],
                       ),
                     ),
