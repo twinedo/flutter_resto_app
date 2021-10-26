@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
 
     Widget header() {
       return Container(
-        padding: const EdgeInsets.only(top: 20),
         margin: const EdgeInsets.only(bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,10 +89,8 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    Widget city() {
-      var screenHeight = MediaQuery.of(context).size.height;
-      return Container(
-        height: screenHeight - 170,
+    Widget recommended() {
+      return Expanded(
         child: SingleChildScrollView(
           child: FutureBuilder<String>(
               future: DefaultAssetBundle.of(context)
@@ -102,7 +99,6 @@ class _HomePageState extends State<HomePage> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   final Restaurants restaurants =
                       restaurantFromJson(snapshot.data!);
-                  // final List<RestoModel> resto = parseResto(snapshot.data);
                   print(restaurants.restaurants);
 
                   return ListView.builder(
@@ -127,14 +123,14 @@ class _HomePageState extends State<HomePage> {
       return Padding(
         padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Column(
-          children: [header(), city()],
+          children: [header(), recommended()],
         ),
       );
     }
 
     return Scaffold(
       bottomNavigationBar: bottomNavBar(),
-      body: body(),
+      body: SafeArea(child: body()),
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
     );
@@ -154,9 +150,15 @@ class _HomePageState extends State<HomePage> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(resto.pictureId.toString(),
-                  color: Colors.black.withOpacity(0.7),
-                  colorBlendMode: BlendMode.srcATop),
+              child: Image.network(
+                resto.pictureId.toString(),
+                color: Colors.black.withOpacity(0.7),
+                colorBlendMode: BlendMode.srcATop,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return Image.asset('/assets/icon_app.png');
+                },
+              ),
             ),
             Text(
               resto.name.toString(),

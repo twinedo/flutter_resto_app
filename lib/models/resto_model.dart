@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:restaurant_app_sub1/models/menus_model.dart';
 
 class RestoModel {
@@ -41,13 +39,4 @@ class RestoModel {
       'menus': menus?.toJson()
     };
   }
-}
-
-List<RestoModel> parseResto(String? json) {
-  if (json == null) {
-    return [];
-  }
-
-  final List parsed = jsonDecode(json);
-  return parsed.map((e) => RestoModel.fromJson(e)).toList();
 }
