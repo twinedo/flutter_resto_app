@@ -71,146 +71,155 @@ class _DetailScreenState extends State<DetailScreen> {
                       height: 100,
                       decoration: BoxDecoration(color: primaryColor),
                     ),
-                    Container(
-                      height: 100,
-                      margin: const EdgeInsets.only(top: 80),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
+                    Column(
+                      children: [
+                        Container(
+                          height: 100,
+                          margin: const EdgeInsets.only(top: 80),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                            color: backgroundColor,
+                          ),
                         ),
-                        color: backgroundColor,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 190),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      width: screenWidth,
-                      color: backgroundColor,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              child: Text(
-                                widget.resto.name.toString(),
+                        Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          width: screenWidth,
+                          color: backgroundColor,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: Container(
+                                  child: Text(
+                                    widget.resto.name.toString(),
+                                    style: titleStyle.copyWith(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: IntrinsicHeight(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.pin_drop,
+                                              color: Colors.green,
+                                            ),
+                                            Text(
+                                              widget.resto.city.toString(),
+                                              style: titleStyle.copyWith(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      VerticalDivider(
+                                        width: 10,
+                                        color: Colors.grey,
+                                        thickness: 1,
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: primaryColor,
+                                            ),
+                                            Text(
+                                              widget.resto.rating.toString(),
+                                              style: titleStyle.copyWith(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Description',
+                                textAlign: TextAlign.start,
                                 style: titleStyle.copyWith(
-                                  fontSize: 30,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: IntrinsicHeight(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.pin_drop,
-                                          color: Colors.green,
-                                        ),
-                                        Text(
-                                          widget.resto.city.toString(),
-                                          style: titleStyle.copyWith(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  VerticalDivider(
-                                    width: 10,
-                                    color: Colors.grey,
-                                    thickness: 1,
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: primaryColor,
-                                        ),
-                                        Text(
-                                          widget.resto.rating.toString(),
-                                          style: titleStyle.copyWith(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  widget.resto.description.toString(),
+                                  textAlign: TextAlign.justify,
+                                  style: titleStyle,
+                                ),
                               ),
-                            ),
+                              Text(
+                                'Foods',
+                                textAlign: TextAlign.start,
+                                style: titleStyle.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  widget.resto.menus!.foods!
+                                      .map((e) => e.name)
+                                      .toString(),
+                                  style: titleStyle,
+                                ),
+                              ),
+                              Text(
+                                'Drinks',
+                                textAlign: TextAlign.start,
+                                style: titleStyle.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  widget.resto.menus!.drinks!
+                                      .map((e) => e.name)
+                                      .toString(),
+                                  style: titleStyle,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Description',
-                            textAlign: TextAlign.start,
-                            style: titleStyle.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              widget.resto.description.toString(),
-                              textAlign: TextAlign.justify,
-                              style: titleStyle,
-                            ),
-                          ),
-                          Text(
-                            'Foods',
-                            textAlign: TextAlign.start,
-                            style: titleStyle.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              widget.resto.menus!.foods!
-                                  .map((e) => e.name)
-                                  .toString(),
-                              style: titleStyle,
-                            ),
-                          ),
-                          Text(
-                            'Drinks',
-                            textAlign: TextAlign.start,
-                            style: titleStyle.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              widget.resto.menus!.drinks!
-                                  .map((e) => e.name)
-                                  .toString(),
-                              style: titleStyle,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Align(
                       alignment: Alignment.center,
