@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:restaurant_app_sub1/theme.dart';
 
 class SplashPage extends StatefulWidget {
@@ -19,22 +20,25 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/icon_app.png',
-              width: 178,
-            ),
-            Text(
-              'CaResto',
-              style: titleStyle.copyWith(
-                  fontSize: 24, fontWeight: FontWeight.bold),
-            )
-          ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(statusBarColor: primaryColor),
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/icon_app.png',
+                width: 178,
+              ),
+              Text(
+                'CaResto',
+                style: titleStyle.copyWith(
+                    fontSize: 24, fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:restaurant_app_sub1/models/restaurants_model.dart';
 import 'package:restaurant_app_sub1/models/resto_model.dart';
 import 'package:restaurant_app_sub1/pages/detail_screen.dart';
 import 'package:restaurant_app_sub1/theme.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -17,6 +16,7 @@ class _HomePageState extends State<HomePage> {
     Widget bottomNavBar() {
       return BottomNavigationBar(
         elevation: 20,
+        backgroundColor: backgroundColor,
         items: [
           BottomNavigationBarItem(
             icon: Image.asset(
@@ -65,23 +65,23 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       'CaResto',
                       style: titleStyle.copyWith(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                      ),
                     ),
                   ],
                 ),
-                Icon(
-                  Icons.settings,
-                  color: greyColor,
-                )
+                Icon(Icons.settings, color: greyColor)
               ],
             ),
             Container(
               child: Text(
-                'Rekomendasi Resto',
+                'Recommendations',
                 style: titleStyle.copyWith(
-                    fontSize: 16, fontWeight: FontWeight.bold),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -93,28 +93,28 @@ class _HomePageState extends State<HomePage> {
       return Expanded(
         child: SingleChildScrollView(
           child: FutureBuilder<String>(
-              future: DefaultAssetBundle.of(context)
-                  .loadString('assets/local_restaurant.json'),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  final Restaurants restaurants =
-                      restaurantFromJson(snapshot.data!);
-                  print(restaurants.restaurants);
+            future: DefaultAssetBundle.of(context)
+                .loadString('assets/local_restaurant.json'),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                final Restaurants restaurants =
+                    restaurantFromJson(snapshot.data!);
+                print(restaurants.restaurants);
 
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: restaurants.restaurants.length,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return _buildRestoItem(
-                            context, restaurants.restaurants[index]);
-                      });
-                }
-                return Center(
-                  child: CircularProgressIndicator(),
+                return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: restaurants.restaurants.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return _buildRestoItem(
+                        context, restaurants.restaurants[index]);
+                  },
                 );
-              }),
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          ),
         ),
       );
     }
@@ -128,15 +128,22 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    return Scaffold(
-      bottomNavigationBar: bottomNavBar(),
-      body: SafeArea(child: body()),
-      backgroundColor: backgroundColor,
-      resizeToAvoidBottomInset: false,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: backgroundColor,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      child: Scaffold(
+        bottomNavigationBar: bottomNavBar(),
+        body: SafeArea(child: body()),
+        backgroundColor: backgroundColor,
+        resizeToAvoidBottomInset: false,
+      ),
     );
   }
 
   Widget _buildRestoItem(BuildContext context, RestoModel resto) {
+    var screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -150,23 +157,32 @@ class _HomePageState extends State<HomePage> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                resto.pictureId.toString(),
-                color: Colors.black.withOpacity(0.7),
-                colorBlendMode: BlendMode.srcATop,
-                errorBuilder: (BuildContext context, Object exception,
-                    StackTrace? stackTrace) {
-                  return Image.asset('/assets/icon_app.png');
-                },
+              child: Hero(
+                tag: resto.id.toString(),
+                child: Image.network(
+                  resto.pictureId.toString(),
+                  width: screenWidth - 40,
+                  color: Colors.black.withOpacity(0.7),
+                  colorBlendMode: BlendMode.srcATop,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Container(
+                      color: primaryColor,
+                      alignment: Alignment.center,
+                      child: Image.asset('/assets/icon_app.png'),
+                    );
+                  },
+                ),
               ),
             ),
             Text(
               resto.name.toString(),
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold),
+              style: titleStyle.copyWith(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
